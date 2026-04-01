@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \
     libffi-dev \
+    libglib2.0-0 \
     libpango-1.0-0 \
     libpangoft2-1.0-0 \
     libharfbuzz0b \
@@ -32,8 +33,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar todo el proyecto
 COPY . .
 
-# Exponer el puerto que usa Railway
-EXPOSE 8080
-
-# Comando para arrancar la aplicación
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]
+# COMANDO CORREGIDO: Sin corchetes para que Railway pueda asignar el puerto dinámico
+CMD gunicorn --bind 0.0.0.0:$PORT app:app
