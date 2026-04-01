@@ -49,9 +49,16 @@
         </div>
         <div class="main">
             <div class="topbar">
-                <div class="topbar-info">
-                    <div class="topbar-title">{% block topbar_title %}Inicio{% endblock %}</div>
-                    <div class="topbar-sub">{% block topbar_subtitle %}{% endblock %}</div>
+                <div class="topbar-left">
+                    <button type="button" class="sidebar-toggle" id="sidebar-toggle" aria-label="Abrir menu" aria-expanded="false">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <div class="topbar-info">
+                        <div class="topbar-title">{% block topbar_title %}Inicio{% endblock %}</div>
+                        <div class="topbar-sub">{% block topbar_subtitle %}{% endblock %}</div>
+                    </div>
                 </div>
                 <div class="topbar-actions">
                     {% block topbar_actions %}{% endblock %}
@@ -93,6 +100,36 @@
     </div>
 
     <script>
+        (function () {
+            const app = document.querySelector('.app');
+            const toggleButton = document.getElementById('sidebar-toggle');
+
+            if (!app || !toggleButton) return;
+
+            function closeSidebar() {
+                app.classList.remove('sidebar-open');
+                toggleButton.setAttribute('aria-expanded', 'false');
+            }
+
+            toggleButton.addEventListener('click', function () {
+                const isOpen = app.classList.toggle('sidebar-open');
+                toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (window.innerWidth > 900) return;
+                if (!app.classList.contains('sidebar-open')) return;
+                if (event.target.closest('.sidebar') || event.target.closest('#sidebar-toggle')) return;
+                closeSidebar();
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 900) {
+                    closeSidebar();
+                }
+            });
+        })();
+
         (function () {
             const modal = document.getElementById('confirm-modal');
             const message = document.getElementById('confirm-modal-message');
