@@ -1,2 +1,5 @@
 [phases.setup]
-nixPkgs = ['pango', 'cairo', 'gdk-pixbuf', 'glib']
+nixPkgs = ['...', 'pango', 'cairo', 'gdk-pixbuf', 'glib', 'shared-mime-info']
+
+[phases.build]
+dependsOn = ['setup']
