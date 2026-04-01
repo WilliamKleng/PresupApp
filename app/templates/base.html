@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="app">
+        <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
         <div class="sidebar">
             <div class="sb-brand">
                 <div class="sb-logo">
@@ -103,23 +104,34 @@
         (function () {
             const app = document.querySelector('.app');
             const toggleButton = document.getElementById('sidebar-toggle');
+            const sidebarBackdrop = document.getElementById('sidebar-backdrop');
 
-            if (!app || !toggleButton) return;
+            if (!app || !toggleButton || !sidebarBackdrop) return;
 
             function closeSidebar() {
                 app.classList.remove('sidebar-open');
                 toggleButton.setAttribute('aria-expanded', 'false');
+                sidebarBackdrop.setAttribute('aria-hidden', 'true');
             }
 
             toggleButton.addEventListener('click', function () {
                 const isOpen = app.classList.toggle('sidebar-open');
                 toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                sidebarBackdrop.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
             });
+
+            sidebarBackdrop.addEventListener('click', closeSidebar);
 
             document.addEventListener('click', function (event) {
                 if (window.innerWidth > 900) return;
                 if (!app.classList.contains('sidebar-open')) return;
                 if (event.target.closest('.sidebar') || event.target.closest('#sidebar-toggle')) return;
+                closeSidebar();
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key !== 'Escape') return;
+                if (!app.classList.contains('sidebar-open')) return;
                 closeSidebar();
             });
 

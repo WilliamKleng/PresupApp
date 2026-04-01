@@ -26,7 +26,7 @@
         <tbody>
             {% for c in clientes %}
             <tr>
-                <td style="font-weight: 600;">{{ c.nombre }}</td>
+                <td class="td-strong">{{ c.nombre }}</td>
                 <td>{{ c.direccion or '-' }}</td>
                 <td class="mono">{{ c.telefono or '-' }}</td>
                 <td class="mono">{{ c.dni_cuit or '-' }}</td>
