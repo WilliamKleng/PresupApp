@@ -31,5 +31,6 @@ from app import historial_routes
 
 # Rutas y vistas se agregarán aquí                                                                                                                                                                  
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if os.environ.get('INIT_DB') == 'true':
+    with app.app_context():
+        db.create_all()
