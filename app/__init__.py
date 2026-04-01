@@ -1,13 +1,18 @@
 from flask import Flask
-
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 # from flask_login import LoginManager
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'cambia-esto-por-un-secreto'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///presupuestos.db'
+
+# Railway expone la base en DATABASE_URL. En local se usa SQLite.
+database_url = os.environ.get('DATABASE_URL')
+if database_url and database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'cambia-esto-por-un-secreto')
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url or 'sqlite:///presupuestos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
