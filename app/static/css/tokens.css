@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg-color: #ffffff;
+  --pane-bg-color: #eef1f4;
+  --surface-raised: #f8fafc;
+  --text-color: #1f2933;
+  --text-muted-color: #5f6b77;
+  --border-color: #cfd6de;
+  --primary-color: #35679b;
+  --primary-hover-color: #294f78;
+  --link-color: #2f5f90;
+  --link-hover-color: #244b72;
+  --secondary-color: #5f6976;
+  --secondary-hover-color: #4f5762;
+  --danger-color: #cf2f3f;
+  --danger-hover-color: #a91f2e;
+  --active-bg-color: #e5ecf4;
+  --hover-bg-color: #edf2f7;
+  --focus-ring: rgba(53, 103, 155, 0.24);
+  --font-main: 'Lora', serif;
+  --font-ui: 'IBM Plex Sans', sans-serif;
+  --sidebar-bg-color: #2f353d;
+  --sidebar-border-color: #434c57;
+  --sidebar-text-color: #eef2f6;
+  --sidebar-muted-color: #b8c0cb;
+  --sidebar-hover-bg: #3a434f;
+  --sidebar-active-bg: #454f5b;
+  --sidebar-active-border: #5a6775;
+  --sidebar-active-text: #f4f7fb;
+  --shadow-soft: 0 6px 18px rgba(31, 41, 51, 0.08);
+  --shadow-raise: 0 10px 24px rgba(31, 41, 51, 0.12);
+}

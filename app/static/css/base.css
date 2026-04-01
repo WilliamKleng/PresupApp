@@ -1,0 +1,55 @@
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+
+body {
+  font-family: var(--font-main);
+  margin: 0;
+  background-color: var(--pane-bg-color);
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:visited { color: var(--link-color); }
+a:active { color: var(--link-hover-color); }
+a:hover { text-decoration: underline; }
+
+.topbar,
+.card,
+.table-wrap,
+.form-section,
+button,
+.button,
+input[type="submit"],
+input[type="button"],
+label,
+.form-label,
+th,
+td,
+.home-sub,
+.text-muted,
+.li-left .li-client,
+.li-left .li-date,
+.li-total {
+  font-family: var(--font-ui);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
