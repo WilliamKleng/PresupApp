@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* High-contrast theme variables */
 :root {
@@ -19,8 +19,8 @@
   --active-bg-color: #e5ecf4;
   --hover-bg-color: #edf2f7;
   --focus-ring: rgba(53, 103, 155, 0.24);
-  --font-main: 'Merriweather', serif;
-  --font-ui: 'Source Sans 3', sans-serif;
+  --font-main: 'Lora', serif;
+  --font-ui: 'IBM Plex Sans', sans-serif;
   --sidebar-bg-color: #2f353d;
   --sidebar-border-color: #434c57;
   --sidebar-text-color: #eef2f6;
@@ -129,6 +129,13 @@ body {
 .btn { padding: 9px 16px; min-height: 40px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; border: 1px solid transparent; font-family: var(--font-ui); transition: .15s; text-decoration: none; }
 .btn-primary { background-color: var(--primary-color); color: #fff; border-color: var(--primary-color); }
 .btn-primary:hover { background-color: var(--primary-hover-color); border-color: var(--primary-hover-color); }
+.btn-primary:visited,
+.btn-primary:active,
+a.btn-primary,
+a.btn-primary:visited,
+a.btn-primary:active {
+  color: #fff;
+}
 .btn-ghost { background-color: var(--bg-color); color: var(--text-color); border-color: var(--border-color); }
 .btn-ghost:hover { background-color: var(--hover-bg-color); border-color: #c2ccd8; }
 
@@ -225,6 +232,13 @@ button, .button, input[type="submit"], input[type="button"] {
 }
 .button-primary { color: #fff; background-color: var(--primary-color); border-color: var(--primary-color); }
 .button-primary:hover { background-color: var(--primary-hover-color); border-color: var(--primary-hover-color); }
+.button-primary:visited,
+.button-primary:active,
+a.button-primary,
+a.button-primary:visited,
+a.button-primary:active {
+  color: #fff;
+}
 .button-secondary { color: #fff; background-color: var(--secondary-color); border-color: var(--secondary-color); }
 .button-secondary:hover { background-color: var(--secondary-hover-color); border-color: var(--secondary-hover-color); }
 .button-danger { color: #fff; background-color: var(--danger-color); border-color: var(--danger-color); }
