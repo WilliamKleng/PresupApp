@@ -1,5 +1,8 @@
 [phases.setup]
-nixPkgs = ['...', 'pango', 'cairo', 'gdk-pixbuf', 'glib', 'shared-mime-info']
+nixPkgs = ['...', 'pango', 'cairo', 'gdk-pixbuf', 'glib', 'shared-mime-info', 'gobject-introspection']
 
 [phases.build]
 dependsOn = ['setup']
+
+[variables]
+LD_LIBRARY_PATH = "/usr/lib:/usr/local/lib"
