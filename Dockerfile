@@ -23,15 +23,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Directorio de trabajo
+# Directorio de trabajo en el contenedor
 WORKDIR /app
 
 # Instalar dependencias de Python
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar todo el proyecto
+# Copiar todo el proyecto al contenedor
 COPY . .
 
-# COMANDO CORREGIDO: Sin corchetes para que Railway pueda asignar el puerto dinámico
+# Comando para arrancar la aplicación
+# Se usa sin corchetes para que el shell expanda la variable $PORT de Railway
 CMD gunicorn --bind 0.0.0.0:$PORT app:app
