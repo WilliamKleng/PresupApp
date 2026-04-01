@@ -1,0 +1,183 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  .page-wrap{background:#e5e7eb;padding:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .toggle-bar{display:flex;gap:8px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:4px}
+  .tog{padding:5px 16px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif;color:#6b7280;background:none;transition:.15s}
+  .tog.active{background:#1e293b;color:#fff}
+  .page{background:#fff;width:100%;max-width:680px;padding:40px 44px;font-family:'Plus Jakarta Sans',sans-serif;color:#1e293b;border:1px solid #d1d5db}
+  .top-bar{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+  .top-left{font-size:12px;color:#94a3b8;font-weight:500}
+  .top-left strong{color:#64748b}
+  .top-right{text-align:right;font-size:12px;color:#94a3b8}
+  .top-right strong{color:#64748b;display:block}
+  .doc-tipo-center{text-align:center;flex:1}
+  .doc-tipo{font-size:26px;font-weight:600;color:#1e293b;letter-spacing:-.3px}
+  .divider{border:none;border-top:3px solid #1e293b;margin-bottom:20px}
+  .parties{display:grid;grid-template-columns:1fr 1fr;margin-bottom:28px}
+  .party-block{padding-right:24px}
+  .party-block.right{padding-right:0;padding-left:24px;border-left:1px solid #e2e8f0}
+  .party-label{font-size:9px;font-weight:600;color:#94a3b8;letter-spacing:1px;margin-bottom:5px}
+  .party-name{font-size:13px;font-weight:600;color:#1e293b;margin-bottom:2px}
+  .party-detail{font-size:11px;color:#64748b;line-height:1.8}
+  .no-data{color:#cbd5e1;font-style:italic}
+  table.items{width:100%;border-collapse:collapse}
+  table.items thead tr{background:#1e293b}
+  table.items thead th{font-size:10px;font-weight:500;color:#fff;padding:9px 12px;text-align:left;letter-spacing:.5px}
+  table.items thead th:nth-child(2),table.items thead th:nth-child(3),table.items thead th:last-child{text-align:right}
+  table.items tbody tr{border-bottom:1px solid #f1f5f9}
+  table.items tbody tr:last-child{border:none}
+  table.items tbody tr:nth-child(even){background:#fafafa}
+  table.items tbody td{font-size:12px;color:#374151;padding:10px 12px;vertical-align:top}
+  table.items tbody td:nth-child(2),table.items tbody td:nth-child(3),table.items tbody td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+  table.items tbody td:last-child{font-weight:500;color:#1e293b}
+  .totals-section{border-top:2px solid #1e293b;padding-top:12px}
+  .totals-row{display:flex;justify-content:flex-end;margin-bottom:4px}
+  .totals-label{font-size:12px;color:#64748b;width:120px;text-align:right;padding-right:16px}
+  .totals-value{font-size:12px;color:#374151;width:100px;text-align:right;font-variant-numeric:tabular-nums}
+  .totals-row.grand{margin-top:6px;padding-top:6px;border-top:1px solid #e2e8f0}
+  .totals-row.grand .totals-label{font-size:13px;font-weight:600;color:#1e293b}
+  .totals-row.grand .totals-value{font-size:15px;font-weight:600;color:#1e293b}
+  .totals-row.iva .totals-label,.totals-row.iva .totals-value{color:#94a3b8}
+  .footer{margin-top:36px;display:flex;justify-content:center}
+  .firma-box{text-align:center}
+  .firma-line{width:160px;border-top:1px solid #cbd5e1;margin:0 auto 6px}
+  .firma-label{font-size:10px;color:#94a3b8}
+  .aclaration{font-size:9px;color:#cbd5e1;margin-top:2px}
+  .toggle-iva{display:flex;align-items:center;gap:8px;margin:12px 0 0;padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;width:fit-content}
+  .toggle-iva input{cursor:pointer;accent-color:#1e293b}
+  .toggle-iva label{font-size:12px;color:#475569;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif}
+</style>
+
+<div class="page-wrap">
+  <div class="toggle-bar">
+    <button class="tog active" onclick="showDoc('presup',this)">Presupuesto</button>
+    <button class="tog" onclick="showDoc('remito',this)">Remito</button>
+  </div>
+
+  <!-- PRESUPUESTO -->
+  <div class="page" id="doc-presup">
+    <div class="top-bar">
+      <div class="top-left">N° <strong>0003</strong></div>
+      <div class="doc-tipo-center"><div class="doc-tipo">Presupuesto</div></div>
+      <div class="top-right"><strong>18 / 05 / 2021</strong></div>
+    </div>
+    <hr class="divider">
+    <div class="parties">
+      <div class="party-block">
+        <div class="party-label">EMISOR</div>
+        <div class="party-name">Sergio Kleng</div>
+        <div class="party-detail">España 1167, Paraná, Entre Ríos<br>Tel: 3455-485500<br>sergio-kleng@hotmail.com</div>
+      </div>
+      <div class="party-block right">
+        <div class="party-label">CLIENTE</div>
+        <div class="party-name">Cargill S.A.C.I.</div>
+        <div class="party-detail">Ruta 6 y 18, Paso de la Laguna<br>Tel: <span class="no-data">sin datos</span><br>Mail: <span class="no-data">sin datos</span></div>
+      </div>
+    </div>
+    <table class="items">
+      <thead><tr><th style="width:50%">CONCEPTO</th><th style="width:12%">CANT.</th><th style="width:18%">P. UNITARIO</th><th style="width:20%">TOTAL</th></tr></thead>
+      <tbody>
+        <tr><td>Hacer columnas de caño 2½ x 3 m para luminarias</td><td>4</td><td>$ 3.850,00</td><td>$ 15.400,00</td></tr>
+        <tr><td>Comando de encendido con Fotocontrol</td><td>1</td><td>—</td><td>$ 3.150,00</td></tr>
+        <tr><td>Colocar columnas con luminarias led 150 W</td><td>4</td><td>$ 5.600,00</td><td>$ 22.400,00</td></tr>
+        <tr><td>Cableado por bandejas portacables (m)</td><td>40</td><td>$ 220,00</td><td>$ 8.800,00</td></tr>
+        <tr><td>Cajas de registros en cañería existente</td><td>2</td><td>$ 1.800,00</td><td>$ 3.600,00</td></tr>
+        <tr><td>Cañería para cableado de luminarias (m)</td><td>5</td><td>$ 450,00</td><td>$ 2.250,00</td></tr>
+        <tr><td>Cable subterráneo 2x2,5 mm</td><td>18</td><td>$ 195,90</td><td>$ 3.526,20</td></tr>
+        <tr><td>Cable subterráneo 2x1,5 mm</td><td>22</td><td>$ 156,00</td><td>$ 3.432,00</td></tr>
+        <tr><td>Contactor mini 7 Amp Weg</td><td>1</td><td>—</td><td>$ 3.550,00</td></tr>
+        <tr><td>Cajas rectangulares de Aluminio c/tapa</td><td>2</td><td>$ 850,00</td><td>$ 1.700,00</td></tr>
+        <tr><td>Cable TPR 2x1,5 mm</td><td>10</td><td>$ 113,50</td><td>$ 1.135,00</td></tr>
+        <tr><td>Caño flexible metálico 3/4</td><td>3</td><td>$ 95,20</td><td>$ 285,60</td></tr>
+        <tr><td>Prensacaños con tuercas de Aluminio 3/4</td><td>6</td><td>$ 320,00</td><td>$ 1.920,00</td></tr>
+        <tr><td>Conectores largos de Aluminio 3/4</td><td>6</td><td>$ 490,00</td><td>$ 2.940,00</td></tr>
+        <tr><td>Caño galvanizado 3/4 x 3 m</td><td>1</td><td>—</td><td>$ 984,00</td></tr>
+        <tr><td>Fotocontrol con base</td><td>1</td><td>—</td><td>$ 1.450,00</td></tr>
+      </tbody>
+    </table>
+    <div class="totals-section">
+      <div class="totals-row" id="row-subtotal" style="display:none"><span class="totals-label">Subtotal</span><span class="totals-value">$ 76.522,80</span></div>
+      <div class="totals-row iva" id="row-iva" style="display:none"><span class="totals-label">IVA (21%)</span><span class="totals-value">$ 16.069,79</span></div>
+      <div class="totals-row grand"><span class="totals-label">TOTAL</span><span class="totals-value" id="total-val">$ 76.522,80</span></div>
+    </div>
+    <div class="toggle-iva">
+      <input type="checkbox" id="chk-iva" onchange="toggleIva(this)">
+      <label for="chk-iva">Simular con IVA 21%</label>
+    </div>
+    <div class="footer">
+      <div class="firma-box">
+        <div class="firma-line"></div>
+        <div class="firma-label">Firma y sello</div>
+        <div class="aclaration">Sergio Kleng</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REMITO -->
+  <div class="page" id="doc-remito" style="display:none">
+    <div class="top-bar">
+      <div class="top-left">N° <strong>R-0001</strong></div>
+      <div class="doc-tipo-center"><div class="doc-tipo">Remito</div></div>
+      <div class="top-right"><strong>18 / 05 / 2021</strong></div>
+    </div>
+    <hr class="divider">
+    <div class="parties">
+      <div class="party-block">
+        <div class="party-label">EMISOR</div>
+        <div class="party-name">Sergio Kleng</div>
+        <div class="party-detail">España 1167, Paraná, Entre Ríos<br>Tel: 3455-485500<br>sergio-kleng@hotmail.com</div>
+      </div>
+      <div class="party-block right">
+        <div class="party-label">DESTINATARIO</div>
+        <div class="party-name">Cargill S.A.C.I.</div>
+        <div class="party-detail">Ruta 6 y 18, Paso de la Laguna<br>Tel: <span class="no-data">sin datos</span><br>Ref. Presupuesto N° 0003</div>
+      </div>
+    </div>
+    <table class="items">
+      <thead><tr><th style="width:75%">DESCRIPCIÓN</th><th style="width:25%;text-align:right">CANTIDAD</th></tr></thead>
+      <tbody>
+        <tr><td>Columnas de caño 2½ x 3 m para luminarias</td><td>4</td></tr>
+        <tr><td>Luminarias led 150 W</td><td>4</td></tr>
+        <tr><td>Cable subterráneo 2x2,5 mm</td><td>18 m</td></tr>
+        <tr><td>Cable subterráneo 2x1,5 mm</td><td>22 m</td></tr>
+        <tr><td>Contactor mini 7 Amp Weg</td><td>1</td></tr>
+        <tr><td>Cajas rectangulares de Aluminio c/tapa</td><td>2</td></tr>
+        <tr><td>Cable TPR 2x1,5 mm</td><td>10 m</td></tr>
+        <tr><td>Caño flexible metálico 3/4</td><td>3</td></tr>
+        <tr><td>Prensacaños con tuercas de Aluminio 3/4</td><td>6</td></tr>
+        <tr><td>Conectores largos de Aluminio 3/4</td><td>6</td></tr>
+        <tr><td>Caño galvanizado 3/4 x 3 m</td><td>1</td></tr>
+        <tr><td>Fotocontrol con base</td><td>1</td></tr>
+      </tbody>
+    </table>
+    <div class="footer" style="margin-top:40px;justify-content:space-around">
+      <div class="firma-box">
+        <div class="firma-line"></div>
+        <div class="firma-label">Entregué conforme</div>
+        <div class="aclaration">Sergio Kleng</div>
+      </div>
+      <div class="firma-box">
+        <div class="firma-line"></div>
+        <div class="firma-label">Recibí conforme</div>
+        <div class="aclaration">Aclaración y sello</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showDoc(type,btn){
+  document.querySelectorAll('.tog').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('doc-presup').style.display=type==='presup'?'block':'none';
+  document.getElementById('doc-remito').style.display=type==='remito'?'block':'none';
+}
+function toggleIva(chk){
+  const hasIva=chk.checked;
+  document.getElementById('row-subtotal').style.display=hasIva?'flex':'none';
+  document.getElementById('row-iva').style.display=hasIva?'flex':'none';
+  document.getElementById('total-val').textContent=hasIva?'$ 92.592,59':'$ 76.522,80';
+}
+</script>

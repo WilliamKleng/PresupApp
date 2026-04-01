@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block page_title %}Editar Cliente - PresupApp{% endblock %}
+{% block topbar_title %}Editar Cliente{% endblock %}
+{% block topbar_subtitle %}{{ cliente.nombre }}{% endblock %}
+{% block topbar_actions %}
+    <a href="{{ url_for('clientes') }}" class="btn btn-ghost">Cancelar</a>
+    <button type="submit" form="editar-cliente-form" class="btn btn-primary">Guardar Cambios</button>
+{% endblock %}
+{% block content %}
+<form method="post" id="editar-cliente-form">
+    <div class="form-section">
+        <div class="section-title">DATOS DEL CLIENTE</div>
+        <div class="form-grid">
+            <div class="form-group full">
+                <label for="nombre" class="fl">NOMBRE / RAZÓN SOCIAL</label>
+                <input type="text" name="nombre" id="nombre" class="fi" value="{{ cliente.nombre }}" required>
+            </div>
+            <div class="form-group full">
+                <label for="direccion" class="fl">DIRECCIÓN</label>
+                <input type="text" name="direccion" id="direccion" class="fi" value="{{ cliente.direccion or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="telefono" class="fl">TELÉFONO</label>
+                <input type="text" name="telefono" id="telefono" class="fi" value="{{ cliente.telefono or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="dni_cuit" class="fl">DNI/CUIT</label>
+                <input type="text" name="dni_cuit" id="dni_cuit" class="fi" value="{{ cliente.dni_cuit or '' }}">
+            </div>
+            <div class="form-group">
+                <label for="mail" class="fl">EMAIL</label>
+                <input type="email" name="mail" id="mail" class="fi" value="{{ cliente.mail or '' }}">
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

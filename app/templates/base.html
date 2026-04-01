@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block page_title %}PresupApp{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app">
+        <div class="sidebar">
+            <div class="sb-brand">
+                <div class="sb-logo">
+                    <div class="sb-logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="sb-logo-text">PresupApp</div>
+                    </div>
+                </div>
+            </div>
+            <nav class="sb-nav">
+                <div class="sb-section">PRINCIPAL</div>
+                <a href="{{ url_for('index') }}" class="sb-item {% if request.path == url_for('index') %}active{% endif %}">
+                    <span>Inicio</span>
+                </a>
+                
+                <div class="sb-section">DOCUMENTOS</div>
+                <a href="{{ url_for('presupuestos') }}" class="sb-item {% if 'presupuestos' in request.path %}active{% endif %}">
+                    <span>Presupuestos</span>
+                </a>
+                <a href="{{ url_for('remitos') }}" class="sb-item {% if 'remitos' in request.path %}active{% endif %}">
+                    <span>Remitos</span>
+                </a>
+                
+                <div class="sb-section">GESTIÓN</div>
+                <a href="{{ url_for('clientes') }}" class="sb-item {% if 'clientes' in request.path %}active{% endif %}">
+                    <span>Clientes</span>
+                </a>
+                <a href="{{ url_for('historial') }}" class="sb-item {% if 'historial' in request.path %}active{% endif %}">
+                    <span>Historial</span>
+                </a>
+            </nav>
+        </div>
+        <div class="main">
+            <div class="topbar">
+                <div class="topbar-info">
+                    <div class="topbar-title">{% block topbar_title %}Inicio{% endblock %}</div>
+                    <div class="topbar-sub">{% block topbar_subtitle %}{% endblock %}</div>
+                </div>
+                <div class="topbar-actions">
+                    {% block topbar_actions %}{% endblock %}
+                </div>
+            </div>
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <div class="confirm-modal" id="confirm-modal" aria-hidden="true">
+        <div class="confirm-modal__backdrop" data-confirm-close></div>
+        <div class="confirm-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+            <h3 class="confirm-modal__title" id="confirm-modal-title">Confirmar acción</h3>
+            <p class="confirm-modal__message" id="confirm-modal-message">¿Seguro que deseas continuar?</p>
+            <div class="confirm-modal__actions">
+                <button type="button" class="btn btn-ghost" id="confirm-modal-cancel" data-confirm-close>Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirm-modal-accept">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pdf-modal" id="pdf-modal" aria-hidden="true">
+        <div class="pdf-modal__backdrop" data-pdf-close></div>
+        <div class="pdf-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="pdf-modal-title">
+            <div class="pdf-modal__header">
+                <h3 class="pdf-modal__title" id="pdf-modal-title">Vista previa</h3>
+                <button type="button" class="pdf-modal__close" data-pdf-close aria-label="Cerrar">x</button>
+            </div>
+            <div class="pdf-modal__body">
+                <iframe id="pdf-modal-frame" class="pdf-modal__frame" title="Vista previa de PDF"></iframe>
+            </div>
+            <div class="pdf-modal__actions">
+                <a id="pdf-modal-download" class="btn btn-ghost" href="#">Descargar PDF</a>
+                <button type="button" class="btn btn-primary" id="pdf-modal-print">Imprimir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const modal = document.getElementById('confirm-modal');
+            const message = document.getElementById('confirm-modal-message');
+            const acceptBtn = document.getElementById('confirm-modal-accept');
+            let pendingForm = null;
+
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                pendingForm = null;
+            }
+
+            function openModal(form) {
+                const customMessage = form.getAttribute('data-confirm-message');
+                message.textContent = customMessage || '¿Seguro que deseas continuar?';
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                pendingForm = form;
+            }
+
+            document.addEventListener('submit', function (event) {
+                const form = event.target;
+                if (!form.classList.contains('js-confirm-form')) return;
+
+                if (form.dataset.confirmed === 'true') {
+                    form.dataset.confirmed = 'false';
+                    return;
+                }
+
+                event.preventDefault();
+                openModal(form);
+            });
+
+            document.querySelectorAll('[data-confirm-close]').forEach(function (el) {
+                el.addEventListener('click', closeModal);
+            });
+
+            acceptBtn.addEventListener('click', function () {
+                if (!pendingForm) return;
+                pendingForm.dataset.confirmed = 'true';
+                pendingForm.requestSubmit();
+                closeModal();
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+                    closeModal();
+                }
+            });
+        })();
+
+        (function () {
+            const modal = document.getElementById('pdf-modal');
+            const frame = document.getElementById('pdf-modal-frame');
+            const title = document.getElementById('pdf-modal-title');
+            const downloadLink = document.getElementById('pdf-modal-download');
+            const printBtn = document.getElementById('pdf-modal-print');
+
+            if (!modal || !frame || !title || !downloadLink || !printBtn) return;
+
+            function closePdfModal() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                frame.removeAttribute('src');
+                downloadLink.setAttribute('href', '#');
+            }
+
+            function withDownloadParam(url) {
+                const join = url.includes('?') ? '&' : '?';
+                return `${url}${join}download=1`;
+            }
+
+            document.addEventListener('click', function (event) {
+                const trigger = event.target.closest('.js-open-pdf-preview');
+                if (!trigger) return;
+
+                const url = trigger.getAttribute('data-pdf-url');
+                const pdfTitle = trigger.getAttribute('data-pdf-title') || 'Vista previa';
+                if (!url) return;
+
+                title.textContent = pdfTitle;
+                frame.setAttribute('src', url);
+                downloadLink.setAttribute('href', withDownloadParam(url));
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+            });
+
+            document.querySelectorAll('[data-pdf-close]').forEach(function (el) {
+                el.addEventListener('click', closePdfModal);
+            });
+
+            printBtn.addEventListener('click', function () {
+                if (frame.contentWindow) {
+                    frame.contentWindow.focus();
+                    frame.contentWindow.print();
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+                    closePdfModal();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

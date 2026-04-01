@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Inicio - PresupApp{% endblock %}
+
+{% block topbar_title %}Inicio{% endblock %}
+
+{% block topbar_subtitle %}{{ current_date|capitalize }}{% endblock %}
+
+{% block content %}
+<div class="home-hero">
+    <div class="home-hero-left">
+        <h2 class="home-title">Resumen general</h2>
+        <p class="home-sub">Visualizá la actividad reciente y accedé a acciones frecuentes.</p>
+    </div>
+    <div class="home-hero-right">
+        <a href="{{ url_for('nuevo_cliente') }}" class="btn btn-ghost">+ Cliente</a>
+        <a href="{{ url_for('nuevo_remito') }}" class="btn btn-ghost">+ Remito</a>
+        <a href="{{ url_for('nuevo_presupuesto') }}" class="btn btn-primary">+ Presupuesto</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-label">PRESUPUESTOS</div>
+        <div class="stat-value">{{ n_presupuestos }}</div>
+        <div class="stat-sub">Total emitidos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">REMITOS</div>
+        <div class="stat-value">{{ n_remitos }}</div>
+        <div class="stat-sub">Total emitidos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">CLIENTES</div>
+        <div class="stat-value">{{ n_clientes }}</div>
+        <div class="stat-sub">Base registrada</div>
+    </div>
+</div>
+
+<div class="recent-grid">
+    <div class="card">
+        <div class="card-title">Últimos presupuestos <a href="{{ url_for('presupuestos') }}">ver todos</a></div>
+        {% for p in recent_presupuestos %}
+        <div class="list-item">
+            <div class="li-left">
+                <div class="li-num">#{{ '%04d' % p.numero }}</div>
+                <div class="li-client">{{ p.cliente.nombre }}</div>
+                <div class="li-date">{{ p.fecha.strftime('%d/%m/%Y') }}</div>
+            </div>
+            <div class="li-right">
+                {% set sum_total = namespace(val=0) %}
+                {% for i in p.items %}
+                    {% set sum_total.val = sum_total.val + (i.cantidad * i.precio_unitario) %}
+                {% endfor %}
+                <div class="li-total">${{ "%.2f"|format(sum_total.val) }}</div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted">No hay presupuestos recientes.</p>
+        {% endfor %}
+    </div>
+    <div class="card">
+        <div class="card-title">Últimos remitos <a href="{{ url_for('remitos') }}">ver todos</a></div>
+        {% for r in recent_remitos %}
+        <div class="list-item">
+            <div class="li-left">
+                <div class="li-num">#{{ '%04d' % r.numero }}</div>
+                <div class="li-client">{{ r.cliente.nombre }}</div>
+                <div class="li-date">{{ r.fecha.strftime('%d/%m/%Y') }}</div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted">No hay remitos recientes.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

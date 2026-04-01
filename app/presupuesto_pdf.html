@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Presupuesto N° {{ '%04d' % presupuesto.numero }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Helvetica', 'Arial', sans-serif;
+            font-size: 12px;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-header {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .main-header h1 {
+            text-align: center;
+            margin: 0 0 15px 0;
+            font-size: 28px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .document-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        .document-meta p {
+            margin: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        .company-details, .client-details {
+            width: 48%;
+        }
+        .company-details h2 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #000;
+            font-weight: 600;
+        }
+        .company-details p, .client-details p {
+            margin: 4px 0;
+            line-height: 1.4;
+        }
+        .client-details {
+            text-align: right;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .items-table th, .items-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6; /* border-color */
+        }
+        .items-table th {
+            background-color: #f8f9fa; /* pane-bg-color */
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            color: #555;
+        }
+        .items-table .text-right {
+            text-align: right;
+        }
+        .items-table .font-mono {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+        }
+        .totals {
+            float: right;
+            width: 40%;
+        }
+        .totals-table {
+            width: 100%;
+        }
+        .totals-table td {
+            padding: 8px;
+            text-align: right;
+        }
+        .totals-table .label {
+            font-weight: 600;
+            color: #555;
+        }
+        .totals-table .grand-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0d6efd; /* primary-color */
+            border-top: 2px solid #333;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-header">
+        <h1>Presupuesto</h1>
+        <div class="document-meta">
+            <p><strong>Número:</strong> {{ '%04d'|format(presupuesto.numero) }}</p>
+            <p><strong>Fecha:</strong> {{ presupuesto.fecha.strftime('%d/%m/%Y') }}</p>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="company-details">
+            <h2>SERGIO KLENG</h2>
+            <p>España 1167</p>
+            <p>3455-485500</p>
+            <p>sergio-kleng@hotmail.com</p>
+        </div>
+        <div class="client-details">
+            <p><strong>Cliente:</strong> {{ presupuesto.cliente.nombre }}</p>
+            {% if presupuesto.cliente.direccion %}<p><strong>Dirección:</strong> {{ presupuesto.cliente.direccion }}</p>{% endif %}
+            {% if presupuesto.cliente.telefono %}<p><strong>Teléfono:</strong> {{ presupuesto.cliente.telefono }}</p>{% endif %}
+            {% if presupuesto.cliente.mail %}<p><strong>Email:</strong> {{ presupuesto.cliente.mail }}</p>{% endif %}
+        </div>
+    </div>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th style="width:50%;">Descripción</th>
+                <th class="text-right">Cantidad</th>
+                <th class="text-right">P. Unitario</th>
+                <th class="text-right">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set subtotal = 0 %}
+            {% for item in presupuesto.items %}
+            <tr>
+                <td>{{ item.concepto }}</td>
+                <td class="text-right font-mono">{{ "%.2f"|format(item.cantidad) }}</td>
+                <td class="text-right font-mono">${{ "%.2f"|format(item.precio_unitario) }}</td>
+                <td class="text-right font-mono">${{ "%.2f"|format(item.total) }}</td>
+            </tr>
+            {% set subtotal = subtotal + item.total %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="totals">
+        <table class="totals-table">
+            <tr>
+                <td class="label">Subtotal</td>
+                <td class="font-mono">${{ "%.2f"|format(subtotal) }}</td>
+            </tr>
+            {% if presupuesto.iva_porcentaje %}
+            {% set iva_monto = subtotal * (presupuesto.iva_porcentaje / 100) %}
+            <tr>
+                <td class="label">IVA ({{ "%.2f"|format(presupuesto.iva_porcentaje) }}%)</td>
+                <td class="font-mono">${{ "%.2f"|format(iva_monto) }}</td>
+            </tr>
+            <tr class="grand-total">
+                <td class="label">TOTAL</td>
+                <td class="font-mono">${{ "%.2f"|format(subtotal + iva_monto) }}</td>
+            </tr>
+            {% else %}
+            <tr class="grand-total">
+                <td class="label">TOTAL</td>
+                <td class="font-mono">${{ "%.2f"|format(subtotal) }}</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+</body>
+</html>
